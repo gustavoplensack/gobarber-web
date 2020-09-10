@@ -12,10 +12,16 @@ import logoImg from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
+interface signUpFormInterface {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data: object) => {
+  const handleSubmit = useCallback(async (data: signUpFormInterface) => {
     formRef.current?.setErrors({});
     try {
       const schema = Yup.object().shape({
