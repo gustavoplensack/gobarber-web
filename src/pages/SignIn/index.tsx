@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useContext } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
@@ -12,6 +12,7 @@ import logoImg from '../../assets/logo.svg';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import AuthContext from '../../hooks/AuthContext';
 
 interface signInFormInterface {
   email: string;
@@ -19,7 +20,13 @@ interface signInFormInterface {
 }
 
 const SignIn: React.FC = () => {
+  // Refs
   const formRef = useRef<FormHandles>(null);
+
+  // Contexts
+  const auth = useContext(AuthContext);
+
+  console.log(auth);
 
   const handleSubmit = useCallback(async (data: signInFormInterface) => {
     formRef.current?.setErrors({});
