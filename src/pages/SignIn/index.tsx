@@ -53,7 +53,11 @@ const SignIn: React.FC = () => {
           formRef.current?.setErrors(errors);
           return;
         }
-        addToast();
+        addToast({
+          title: 'Impossível fazer login',
+          description: 'Email ou senha inválidos, tente novamente.',
+          type: 'error',
+        });
       }
     },
     [addToast, signIn],
