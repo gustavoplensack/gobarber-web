@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FiXCircle, FiAlertCircle } from 'react-icons/fi';
 
 import { Container } from './styles';
@@ -11,6 +11,18 @@ interface ToastProps {
 
 const Toast: React.FC<ToastProps> = ({ message }) => {
   const { removeToast } = useToast();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      removeToast(message.id);
+    }, 3000);
+
+    // functions returned by an useEffect will run once the component
+    // is deleted.
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [message.id, removeToast]);
 
   return (
     <Container
