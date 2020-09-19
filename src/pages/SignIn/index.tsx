@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import { Container, Content, Background } from './styles';
+import { AnimationContainer, Container, Content, Background } from './styles';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -66,31 +66,32 @@ const SignIn: React.FC = () => {
 
   return (
     <Container>
-      <Content>
-        <img src={logoImg} alt="GoBarber" />
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Faça seu Login</h1>
+      <AnimationContainer>
+        <Content>
+          <img src={logoImg} alt="GoBarber" />
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Faça seu Login</h1>
 
-          <Input name="email" icon={FiMail} placeholder="Email" />
+            <Input name="email" icon={FiMail} placeholder="Email" />
 
-          <Input
-            name="password"
-            icon={FiLock}
-            type="password"
-            placeholder="Senha"
-          />
+            <Input
+              name="password"
+              icon={FiLock}
+              type="password"
+              placeholder="Senha"
+            />
 
-          <Button type="submit">Entrar</Button>
+            <Button type="submit">Entrar</Button>
 
-          <a href="forgot">Esqueci minha senha</a>
-        </Form>
+            <a href="forgot">Esqueci minha senha</a>
+          </Form>
 
-        <Link to="/signup">
-          <FiLogIn />
-          Criar conta
-        </Link>
-      </Content>
-
+          <Link to="/signup">
+            <FiLogIn />
+            Criar conta
+          </Link>
+        </Content>
+      </AnimationContainer>
       <Background />
     </Container>
   );
