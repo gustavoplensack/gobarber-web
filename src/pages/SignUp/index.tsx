@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import { Container, Content, Background } from './styles';
+import { AnimationContainer, Container, Content, Background } from './styles';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -48,28 +48,30 @@ const SignUp: React.FC = () => {
       <Background />
 
       <Content>
-        <img src={logoImg} alt="GoBarber" />
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Faça seu Cadastro</h1>
+        <AnimationContainer>
+          <img src={logoImg} alt="GoBarber" />
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Faça seu Cadastro</h1>
 
-          <Input name="name" icon={FiUser} placeholder="Nome" />
+            <Input name="name" icon={FiUser} placeholder="Nome" />
 
-          <Input name="email" icon={FiMail} placeholder="Email" />
+            <Input name="email" icon={FiMail} placeholder="Email" />
 
-          <Input
-            name="password"
-            icon={FiLock}
-            type="password"
-            placeholder="Senha"
-          />
+            <Input
+              name="password"
+              icon={FiLock}
+              type="password"
+              placeholder="Senha"
+            />
 
-          <Button type="submit">Cadastrar</Button>
-        </Form>
+            <Button type="submit">Cadastrar</Button>
+          </Form>
 
-        <Link to="/">
-          <FiArrowLeft />
-          Voltar para Login
-        </Link>
+          <Link to="/">
+            <FiArrowLeft />
+            Voltar para Login
+          </Link>
+        </AnimationContainer>
       </Content>
     </Container>
   );
