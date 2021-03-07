@@ -4,7 +4,7 @@ import { animated } from 'react-spring';
 interface ToastProps {
   // type should defaults to 'info'
   type?: 'success' | 'error' | 'info';
-  hasDescription: boolean;
+  hasDescription: number;
 }
 
 const toastTypeCssVariations = {
