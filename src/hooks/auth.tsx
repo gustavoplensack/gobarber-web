@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * A context is used for sharing information between screens and
  * react components.  This is an aunthentication component.
@@ -10,18 +11,21 @@ interface SignInCredentials {
   email: string;
   password: string;
 }
+interface User {
+  id: string;
+  name: string;
+  avatar_url: string;
+}
 
 interface AuthContextData {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  user: object;
+  user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
 
 interface AuthState {
   token: string;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  user: object;
+  user: User;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
