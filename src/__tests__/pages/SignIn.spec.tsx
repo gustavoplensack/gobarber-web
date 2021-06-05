@@ -5,9 +5,12 @@ import SignIn from '../../pages/SignIn';
 
 // Mocking react-router-dom features to allow
 // testing the component.
+const mockedPush = jest.fn();
 jest.mock('react-router-dom', () => {
   return {
-    useHistory: jest.fn(),
+    useHistory: () => {
+      return { push: mockedPush };
+    },
     Link: ({ children }: { children: React.ReactNode }) => children,
   };
 });
@@ -22,6 +25,10 @@ jest.mock('../../hooks/auth', () => {
 });
 
 describe('SignIn Page', () => {
+  beforeEach(() => {
+    mockedPush.mockClear();
+  });
+
   it('should be able to sign in', async () => {
     const { getByText, getByPlaceholderText } = render(<SignIn />);
 
@@ -38,7 +45,27 @@ describe('SignIn Page', () => {
     fireEvent.click(submitButton);
 
     await wait(() => {
-      expect(mockedSignIn).toHaveBeenCalledWith({ email, password });
+      expect(mockedPush).toHaveBeenCalledWith('dashboard');
+    });
+  });
+
+  it('should block API post on invalid password or mail', async () => {
+    const { getByText, getByPlaceholderText } = render(<SignIn />);
+
+    const emailField = getByPlaceholderText('Email');
+    const passwordField = getByPlaceholderText('Senha');
+    const submitButton = getByText('Entrar');
+
+    const email = 'not-a-valid-email';
+    const password = '111';
+
+    fireEvent.change(emailField, { target: { value: email } });
+    fireEvent.change(passwordField, { target: { value: password } });
+
+    fireEvent.click(submitButton);
+
+    await wait(() => {
+      expect(mockedPush).not.toHaveBeenCalled();
     });
   });
 });
