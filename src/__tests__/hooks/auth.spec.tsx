@@ -1,7 +1,7 @@
 /**
  * Auth hook testing suit
  */
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import MockAdapter from 'axios-mock-adapter';
 
 import { AuthProvider, useAuth } from '../../hooks/auth';
@@ -48,5 +48,60 @@ describe('Auth Hook', () => {
       '@GoBarber:user',
       JSON.stringify(apiResponse.user),
     );
+  });
+
+  it('should be able to restore saved auth from auth inits', () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation(key => {
+      switch (key) {
+        case '@GoBarber:token':
+          return 'token-123';
+        case '@GoBarber:user':
+          return JSON.stringify({
+            id: 'user-123',
+            name: 'John Doe',
+            email: EXPECTED_EMAIL,
+          });
+        default:
+          return null;
+      }
+    });
+
+    // get hook returned value
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
+    expect(result.current.user.email).toEqual(EXPECTED_EMAIL);
+  });
+
+  it('should be able to sign out', async () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation(key => {
+      switch (key) {
+        case '@GoBarber:token':
+          return 'token-123';
+        case '@GoBarber:user':
+          return JSON.stringify({
+            id: 'user-123',
+            name: 'John Doe',
+            email: EXPECTED_EMAIL,
+          });
+        default:
+          return null;
+      }
+    });
+
+    const removeItemSpy = jest.spyOn(Storage.prototype, 'removeItem');
+
+    // get hook returned value
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
+    act(() => {
+      result.current.signOut();
+    });
+
+    expect(removeItemSpy).toHaveBeenCalledTimes(2);
+    expect(result.current.user).toBeUndefined();
   });
 });
